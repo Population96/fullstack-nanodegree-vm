@@ -56,7 +56,6 @@ def registerPlayer(name):
     cleaned = cleaned.replace("'", "''")
     query = "INSERT INTO players (PName) VALUES ('{0}')".format(cleaned)
     c.execute(query)
-    #NEED TO ALSO REGISTER PLAYER TO TOURNAMENT via REGISTRATION table
     query = "INSERT INTO registration (PID) SELECT PID FROM players WHERE PName='{0}'".format(cleaned)
     c.execute(query)
     DB.commit()
@@ -79,7 +78,6 @@ def playerStandings():
     c = DB.cursor()
     query = """SELECT p.PID, p.PName, r.Wins, r.Matches FROM players as p,
      registration as r WHERE p.PID = r.PID ORDER BY r.Matches"""
-    # IS THIS SORTED PROPERLY?
     c.execute(query)
     result = c.fetchall()
     DB.close()
@@ -126,14 +124,13 @@ def reportMatch(winner, loser):
     loser_matches += 1
     DB = connect()
     c = DB.cursor()
-    #TODO SQL does not match code or _test
     query = "INSERT INTO matches(Winner, Loser) VALUES ('{0}', '{1}')".format(winner, loser)
     c.execute(query)
-    #WIN
+    # SQL QUERY TO UPDATE WINNER
     query = """UPDATE registration SET Wins='{0}', Matches='{1}'
     WHERE PID='{2}'""".format(winner_wins, winner_matches, winner)
     c.execute(query)
-    # LOSE
+    # SQL QUERY TO UPDATE LOSER
     query = """UPDATE registration SET Losses='{0}', Matches='{1}'
     WHERE PID='{2}'""".format(loser_losses, loser_matches, loser)
     c.execute(query)
@@ -159,15 +156,14 @@ def reportMatchDraw(winner, loser):
     loser_matches += 1
     DB = connect()
     c = DB.cursor()
-    #GONNA NEED TO FIX THIS TOO
     query = """INSERT INTO matches(Winner, Loser, Draw)
     VALUES ('{0}', '{1}', 'TRUE')""".format(winner, loser)
     c.execute(query)
-    #WIN
+    # SQL QUERY TO UPDATE TIED PLAYER
     query = """UPDATE registration SET Draws='{0}', Matches='{1}'
     WHERE PID='{2}'""".format(winner_draws, winner_matches, winner)
     c.execute(query)
-    # LOSE
+    # SQL QUERY TO UPDATE TIED PLAYER
     query = """UPDATE registration SET Draws='{0}', Matches='{1}'
     WHERE PID='{2}'""".format(loser_draws, loser_matches, loser)
     c.execute(query)
@@ -193,7 +189,6 @@ def swissPairings():
     c = DB.cursor()
     a = []
     output = []
-    # SELF JOIN?
     query = """SELECT p.PID, p.PName, r.Wins, r.Draws, R.Losses, r.Matches
     FROM players as p, registration as r WHERE p.PID = r.PID ORDER BY r.Wins"""
     c.execute(query)
@@ -201,7 +196,6 @@ def swissPairings():
     for j in result:
         p = Player(j[0], j[1], j[2], j[3], j[4], j[5])
         a.append(p)
-    # DO SOMETHING WITH RESULTS TO SORT PAIRINGS, CREATE NEW TUPLE
     players_sorted = sorted(a, key=lambda player: player.record)
     for x in range (0, (len(a) - 1), 2):
         mytup = (players_sorted[x].id,)
