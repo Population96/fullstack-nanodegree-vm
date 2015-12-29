@@ -94,4 +94,4 @@ CREATE VIEW standings AS
     SELECT w.PID, w.PName, w.gw AS wins, w.gw+l.gl AS matches 
       FROM games_won w INNER JOIN games_lost l 
       ON w.PID = l.PID
-      ORDER BY wins DESC, matches;
+      ORDER BY wins DESC, matches DESC;
