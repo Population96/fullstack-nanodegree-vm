@@ -57,26 +57,6 @@ INSERT INTO matches (Winner, Loser) VALUES (22, 23);
 INSERT INTO matches (Winner, Loser) VALUES (24, 25);
 INSERT INTO matches (Winner, Loser) VALUES (22, 24);
 INSERT INTO matches (Winner, Loser) VALUES (23, 25);
-
-
-CREATE VIEW Records AS
-    SELECT m.Winner, p.PName
-    FROM matches as m, players as p
-	WHERE m.Winner = p.PID
-    GROUP BY m.Winner, p.PName
-	ORDER BY m.Winner DESC;
-
-	
---CREATE VIEW Standings AS 
---	SELECT p.PID, p.PName, count (m.winner) as wins, 
---	COALESCE ((SELECT COUNT(m.Winner) FROM matches as m, players as p
---	   WHERE p.PID = m.Winner GROUP BY p.PID) +
---	   (SELECT COUNT(m.Loser) FROM matches as m, players as p
---	   WHERE p.PID = m.Loser GROUP BY p.PID), 0) as Matches
---	FROM players as p FULL JOIN matches as m
---	ON p.PID = m.Winner
---	GROUP BY p.PID
---	ORDER BY Wins DESC;
 	
 CREATE VIEW games_won AS 
     SELECT p.PID, p.PName, COUNT(m.winner) AS gw

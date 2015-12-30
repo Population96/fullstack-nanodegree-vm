@@ -13,6 +13,15 @@ class Player(object):
         self.matches = matches
         self.record = self.__match_record()
 
+    def __init__(self, id, name, wins, matches):
+        self.id = id
+        self.name = name
+        self.wins = wins
+        self.draws = 0
+        self.losses = matches - wins
+        self.matches = matches
+        self.record = self.__match_record()
+
     def __repr__(self):
         return repr((self.id, self.name, self.wins, self.draws,
                      self.matches, self.record))

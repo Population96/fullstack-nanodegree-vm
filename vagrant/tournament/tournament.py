@@ -78,8 +78,7 @@ def playerStandings():
     DB = connect()
     c = DB.cursor()
     # TODO: NEED TO REMOVE REGISTRATION TABLE CODE FROM HERE
-    query = """SELECT p.PID, p.PName, m.Winner FROM players as p,
-     matches as m WHERE p.PID = m.Winner ORDER BY m.Winner DESC"""
+    query = "SELECT * FROM standings"
     c.execute(query)
     result = c.fetchall()
     DB.close()
@@ -100,8 +99,7 @@ def playerStanding(id):
     """
     DB = connect()
     c = DB.cursor()
-    query = """SELECT r.Wins, r.Draws, r.Losses, r.Matches FROM players as p,
-     registration as r WHERE r.PID = %s AND p.PID = r.PID"""
+    query = "SELECT * FROM standings WHERE PID = %s"
     c.execute(query, (id,))
     result = c.fetchall()
     DB.close()
@@ -114,28 +112,10 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
-    #winner_stats = playerStanding(winner)
-    #loser_stats = playerStanding(loser)
-    #winner_wins = winner_stats[0][0]
-    #winner_matches = winner_stats[0][3]
-    #winner_wins += 1
-    #winner_matches += 1
-    #loser_losses = loser_stats[0][2]
-    #loser_matches = loser_stats[0][3]
-    #loser_losses += 1
-    #loser_matches += 1
     DB = connect()
     c = DB.cursor()
     query = "INSERT INTO matches(Winner, Loser) VALUES (%s, %s)"
     c.execute(query, (winner, loser,))
-    # SQL QUERY TO UPDATE WINNER
-    #query = """UPDATE registration SET Wins='{0}', Matches='{1}'
-    #WHERE PID='{2}'""".format(winner_wins, winner_matches, winner)
-    #c.execute(query)
-    # SQL QUERY TO UPDATE LOSER
-    #query = """UPDATE registration SET Losses='{0}', Matches='{1}'
-    #WHERE PID='{2}'""".format(loser_losses, loser_matches, loser)
-    #c.execute(query)
     DB.commit()
     DB.close()
 
@@ -146,29 +126,11 @@ def reportMatchDraw(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
-    #winner_stats = playerStanding(winner)
-    #loser_stats = playerStanding(loser)
-    #winner_draws = winner_stats[0][1]
-    #winner_matches = winner_stats[0][3]
-    #winner_draws += 1
-    #winner_matches += 1
-    #loser_draws = loser_stats[0][1]
-    #loser_matches = loser_stats[0][3]
-    #loser_draws += 1
-    #loser_matches += 1
     DB = connect()
     c = DB.cursor()
     query = """INSERT INTO matches(Winner, Loser, Draw)
     VALUES (%s, %s, 'TRUE')"""
     c.execute(query, (winner, loser,))
-    # SQL QUERY TO UPDATE TIED PLAYER
-    #query = """UPDATE registration SET Draws='{0}', Matches='{1}'
-    #WHERE PID='{2}'""".format(winner_draws, winner_matches, winner)
-    #c.execute(query)
-    # SQL QUERY TO UPDATE TIED PLAYER
-    #query = """UPDATE registration SET Draws='{0}', Matches='{1}'
-    #WHERE PID='{2}'""".format(loser_draws, loser_matches, loser)
-    #c.execute(query)
     DB.commit()
     DB.close()
  
@@ -191,12 +153,11 @@ def swissPairings():
     c = DB.cursor()
     a = []
     output = []
-    query = """SELECT p.PID, p.PName, r.Wins, r.Draws, R.Losses, r.Matches
-    FROM players as p, registration as r WHERE p.PID = r.PID ORDER BY r.Wins"""
-    c.execute(query)
-    result = c.fetchall()
+    #query = "SELECT * FROM standings"
+    #c.execute(query)
+    result = playerStandings()
     for j in result:
-        p = Player(j[0], j[1], j[2], j[3], j[4], j[5])
+        p = Player(j[0], j[1], j[2], j[3])
         a.append(p)
     players_sorted = sorted(a, key=lambda player: player.record)
     for x in range (0, (len(a) - 1), 2):
