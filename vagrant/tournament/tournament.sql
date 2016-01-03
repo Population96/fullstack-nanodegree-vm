@@ -25,6 +25,13 @@ CREATE TABLE players
 	PName varchar(30)
 );
 
+-- TEST PLAYER DATA:
+--INSERT INTO players (PName) VALUES ('Steve Bradley');
+--INSERT INTO players (PNAME) VALUES ('Michael Scott');
+--INSERT INTO players (PName) VALUES ('Ripley Arnett');
+--INSERT INTO players (PName) VALUES ('Will Stephens');
+
+-- TABLE USED FOR MULTIPLE TOURNAMENTS
 --CREATE TABLE registration
 --(
 --	TID integer,
@@ -34,11 +41,6 @@ CREATE TABLE players
 --	CONSTRAINT FK_Registration_PID FOREIGN KEY (PID)
 --		REFERENCES players(PID)
 --);
-
-INSERT INTO players (PName) VALUES ('Steve Bradley');
-INSERT INTO players (PNAME) VALUES ('Michael Scott');
-INSERT INTO players (PName) VALUES ('Ripley Arnett');
-INSERT INTO players (PName) VALUES ('Will Stephens');
 
 CREATE TABLE matches
 (
@@ -52,11 +54,6 @@ CREATE TABLE matches
 	CONSTRAINT FK_MatchOpponent FOREIGN KEY (Loser) 
 		REFERENCES players(PID)
 );
-
-INSERT INTO matches (Winner, Loser) VALUES (22, 23);
-INSERT INTO matches (Winner, Loser) VALUES (24, 25);
-INSERT INTO matches (Winner, Loser) VALUES (22, 24);
-INSERT INTO matches (Winner, Loser) VALUES (23, 25);
 	
 CREATE VIEW games_won AS 
     SELECT p.PID, p.PName, COUNT(m.winner) AS gw
