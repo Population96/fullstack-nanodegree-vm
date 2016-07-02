@@ -13,6 +13,7 @@ import httplib2
 import json
 from flask import make_response
 import requests
+import urlparse
 
 CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 
@@ -145,20 +146,31 @@ def fbconnect():
     # Exchange client token for long-lived server-side token with GET
     app_id = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_id']
     app_secret = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_secret']
-    url = 'https://graph.facebook.com/oauth/' \
+    url = 'https://graph.facebook.com/v2.4/oauth/' \
           'access_token?grant_type=fb_exchange_token&client_id=%s' \
           '&client_secret=%s&fb_exchange_token=%s' % (app_id, app_secret, access_token)
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
+    print "\nResult = " + result
 
     # Use token to get user info from API
     userinfo_url = "https://graph.facebook.com/v2.4/me"
     # Strip expire tag from access token
-    token = result.split("&")[0]
+    #token = result['access_token'][0]
+    #result2 = (dict(result))
+    #token = result['access_token']
+    result = result.split(",")[0]
+    print "\nResult split comma: " + result
+    token = result.split(":")[1]
+    print "\nToken split colon: " + token
+    token = token.replace("\"", "")
+    print "\nToken replace quotes:  " + token
 
-    url = 'https://graph.facebook.com/v2.4/me?%s&fields=name,id,email' % token
+    url = 'https://graph.facebook.com/v2.4/me?fields=name,id,email&access_token=%s' % token
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
+    print "\nResult = " + result
+    print "\nToken = " + token
     print "url sent for API access: %s" % url
     print "API JSON results: %s" % result
     data = json.loads(result)
@@ -167,11 +179,11 @@ def fbconnect():
     login_session['email'] = data["email"]
     login_session['facebook_id'] = data["id"]
 
-    stored_token = token.split("=")[1]
-    login_session['access_token'] = stored_token
+    #stored_token = token.split("=")[1]
+    login_session['access_token'] = token
 
     # Get user picture
-    url = 'https://graph.facebook.com/v2.4/me/picture?%s' \
+    url = 'https://graph.facebook.com/v2.4/me/picture?access_token=%s' \
           '&redirect=0&height=200&width=200' % token
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]

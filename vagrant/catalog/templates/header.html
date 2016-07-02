@@ -9,6 +9,7 @@
         <a href="{{url_for('showLogin')}}">Click Here to Log in</a>
         {% else %}
         <a href="{{url_for('disconnect')}}">Logout</a>
+        <img src="{{ session.picture }}" width="50" height="50">
         {% endif %}
     </div>
 </div>

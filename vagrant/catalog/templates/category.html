@@ -8,8 +8,8 @@
 			<div class="col-md-11 col-md-offset-1 padding-none">
 				<h1>{{ category.name }}
                     <figure class="creator">
-                        <img src="{{ url_for('static', filename='blank_user.gif') }}">
-                        <figcaption>Item creator's name goes here</figcaption>
+                        <img src="{{ creator.picture }}" width="50" height="50">
+                        <figcaption>{{creator.name}}</figcaption>
                     </figure>
 				</h1>
 			</div>
