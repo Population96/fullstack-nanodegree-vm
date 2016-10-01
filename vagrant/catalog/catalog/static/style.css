@@ -1,0 +1,112 @@
+body            
+{ 
+	font-family: sans-serif; 
+	/*background-image: url('img3.jpg'); */
+	background-color: #FFF;
+	color: rgb(63,81,181);
+}
+h1, h2, h3, h4       
+{ 
+	color: rgb(63,81,181); 
+}
+h1, h2          
+{ 
+	font-family: 'Georgia', serif; 
+	margin: 0; 
+}
+h1              
+{  
+}
+h2
+{ 
+	font-size: 1.2em; 
+}
+
+p, dd, dt, label             
+{ 
+	color: white;
+}
+
+a 
+{
+	text-decoration: none; 
+	color: rgb(63,81,181);
+	font-weight: 600;
+	font-size: .75em;
+}
+
+.container 
+{
+	
+	background-color: #EFEFEF;
+	/*border: 2px solid;
+    border-radius: 25px; 
+	padding: 5px 5px 20px 5px; 
+	margin: 5px auto; 
+	border-color: #999999; 
+	background-color: #333333;*/
+}
+.header         
+{
+	border: 2px solid;
+    border-radius: 20px; 
+	margin: 5px 5px 5px 5px; 
+	padding: 10px 0 10px 0px;
+	border-color: rgb(63,81,181); 
+	background-color: rgb(63,81,181);
+}
+.header img
+{
+	padding: 0px;
+	margin: 0px;
+}
+.user
+{
+	text-align: right;
+}
+.nameandprice
+{
+}
+.category
+{
+	/*width:450px;*/
+	margin: 5px 5px 5px 5px; 
+	height:150px;
+	border: 2px solid;
+	border-radius: 10px; 
+	padding: 5px 5px 15px 5px;
+	border-color: rgb(63,81,181); 
+	background-color: rgb(63,81,181);
+	color: white;
+}
+.category a, .header a
+{
+	color: white;
+}
+.name 
+{
+	width:50%;
+	display: inline-block; 
+	float: left;
+	color: white;
+}
+.description 
+{
+	color: white;
+}
+.price 
+{
+	text-align: right; 
+	width:50%; 
+	float: right;
+	color: white;
+}
+.editdeletepane
+{
+	color: white;
+}
+
+.flash          
+{ 
+	background: #cee5F5; 
+}

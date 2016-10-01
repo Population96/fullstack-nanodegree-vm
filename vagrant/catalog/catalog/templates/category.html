@@ -1,0 +1,52 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+    	<div class="row divider green">
+			<div class="col-md-12"></div>
+		</div>
+		<div class="row banner item">
+			<div class="col-md-11 col-md-offset-1 padding-none">
+				<h1>{{ category.name }}
+                    <figure class="creator">
+                        <img src="{{ creator.picture }}" width="50" height="50">
+                        <figcaption>{{creator.name}}</figcaption>
+                    </figure>
+				</h1>
+			</div>
+		</div>
+        
+        <a href="{{url_for('newItem', category_id=category.id)}}">Add New Item</a>
+		
+        <div class="flash">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li><strong> {{ message }} </strong></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <div class="row"> 
+        {% for i in items %}
+            <div class="col-md-6">
+            	<div class="category">
+                	<div class="nameandprice">
+            			<span class="name"><p>{{i.name}}</p></span>
+            			<span class="price"><p>{{i.price}}</p></span>
+        			</div>
+                    <div class="description">
+                        <p>{{i.description}}</p>
+                    </div>
+                    <div class="editdeletepane price">
+                        <a href="{{url_for('editItem', category_id=category.id, item_id=i.id)}}">Edit</a> 
+            			<a href="{{url_for('deleteItem', category_id=category.id, item_id=i.id)}}">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <a href="{{url_for('showCatalog')}}">&lt;&lt; Back to Catalog</a>
+{% endblock %}
